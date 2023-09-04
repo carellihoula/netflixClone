@@ -1,34 +1,53 @@
 import React, { useState } from 'react';
-import { BiBell, BiCaretDown } from 'react-icons/bi';
 import { HiOutlineSearch } from 'react-icons/hi';
 import { styled } from 'styled-components';
-import profil from '../../assets/images/avatar.png';
-import IconProfil from '../IconProfil';
 import SearchBar from '../SearchBar';
+import ContainerMenu from './ContainerMenu';
+import NotificationContainer from './NotificationContainer';
 
 export default function RightSide() {
   const [showSearchBar, setShowSearchBar]  = useState(false)
   const [value, setValue] = useState("");
+  const [subMenuVisible, setSubMenuVisible] = useState(false)
+  const [subMenuVisibleNotif, setSubMenuVisibleNotif] = useState(false)
+  
+
   //const [autoFocus, setAutoFocus] = useState(true)
   
 
   const handleBlur = () => { 
     if(value === "" || value === undefined){
       setShowSearchBar(false)
+      
      
     }
   
   }
+
   const handleChange = (e) =>{
     setValue(e.target.value)
   }
+
   const handleClick  = ()  => {
     setValue("")
-    
-    
+  }
+
+  const  handleMouseEnter = () =>{
+    setSubMenuVisible(true)
     
   }
 
+  const  handleMouseLeave = () =>{
+    setSubMenuVisible(false)
+  }
+
+  const handleMouseEnterNotif = () =>{
+    setSubMenuVisibleNotif(true)
+  }
+
+  const handleMouseLeaveNotif = () =>{
+    setSubMenuVisibleNotif(false)
+  }
   //---------------------------useEffect----------------------------------------
  
  //---------------------------useEffect-----------------------------------------
@@ -52,15 +71,16 @@ export default function RightSide() {
         }
 
         <div className='item-menu'>Jeunesse</div>
-        <BiBell color={"#FFF"} size={26} />
-        <div className='avatar'>
-            <IconProfil image = {profil} 
-            width = "35px"
-            height= "35px"
-            />
-            <BiCaretDown color={"#FFF"}/>
-        </div>
         
+        <NotificationContainer handleMouseEnter = {handleMouseEnterNotif} 
+        handleMouseLeave = {handleMouseLeaveNotif}
+        subMenuVisible = {subMenuVisibleNotif}
+        />
+        
+        <ContainerMenu handleMouseEnter = {handleMouseEnter} 
+        handleMouseLeave = {handleMouseLeave}
+        subMenuVisible = {subMenuVisible}
+        />
         
     </RightSideStyled>
   );
@@ -84,10 +104,4 @@ const RightSideStyled = styled.div`
  .item-menu:hover{
     color : #9F9E9E;
   } 
-  .avatar{
-    display:flex;
-    flex-direction:row;
-    align-items: center;
-    gap:5px;
-  }
-`;
+  `
